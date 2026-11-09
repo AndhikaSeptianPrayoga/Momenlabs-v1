@@ -1,0 +1,6 @@
+node_modules
+dist
+# data pribadi / bahan mentah: tidak ikut ke repo publik (simpan lokal saja)
+Assets/
+public/game-interaktif/anniversary/
+tools/server.log

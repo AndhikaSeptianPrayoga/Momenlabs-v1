@@ -1,0 +1,157 @@
+{
+  "sheet": "assets-src/royal-burgundy/sheet.jpg",
+  "outDir": "public/templates/royal-burgundy",
+  "sprites": {
+    "bouquet": [
+      35,
+      28,
+      448,
+      340
+    ],
+    "bouquetSmall": [
+      505,
+      28,
+      332,
+      315
+    ],
+    "chandelier": {
+      "box": [
+        852,
+        0,
+        292,
+        332
+      ],
+      "global": true,
+      "clear": [
+        [
+          250,
+          0,
+          42,
+          80
+        ]
+      ]
+    },
+    "garland": {
+      "box": [
+        1112,
+        0,
+        560,
+        362
+      ],
+      "global": true,
+      "clear": [
+        [
+          0,
+          140,
+          34,
+          110
+        ],
+        [
+          0,
+          230,
+          34,
+          90
+        ]
+      ]
+    },
+    "crystals": {
+      "box": [
+        1678,
+        0,
+        112,
+        356
+      ],
+      "global": true
+    },
+    "tassels": [
+      1784,
+      0,
+      196,
+      402
+    ],
+    "bouquetMid": [
+      38,
+      382,
+      430,
+      380
+    ],
+    "archLeft": [
+      484,
+      372,
+      198,
+      386
+    ],
+    "sconce": [
+      680,
+      492,
+      98,
+      126
+    ],
+    "archCenter": [
+      793,
+      336,
+      414,
+      424
+    ],
+    "sconceShade": [
+      1568,
+      492,
+      114,
+      126
+    ],
+    "archRight": [
+      1328,
+      372,
+      198,
+      386
+    ],
+    "window": [
+      1738,
+      412,
+      180,
+      330
+    ],
+    "chairLeft": [
+      58,
+      778,
+      284,
+      326
+    ],
+    "chairRight": [
+      358,
+      778,
+      284,
+      326
+    ],
+    "panels": [
+      703,
+      783,
+      584,
+      333
+    ],
+    "column": [
+      1318,
+      768,
+      124,
+      348
+    ],
+    "columnB": [
+      1448,
+      768,
+      128,
+      348
+    ],
+    "scroll": [
+      1582,
+      866,
+      392,
+      172
+    ]
+  },
+  "photos": {
+    "bride": "assets-src/royal-burgundy/bride.jpg",
+    "groom": "assets-src/royal-burgundy/groom.jpg",
+    "couple": "assets-src/royal-burgundy/couple.jpg",
+    "couple-embrace": "assets-src/royal-burgundy/couple-embrace.jpg"
+  }
+}

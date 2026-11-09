@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Tamu — MomentLabs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f5f6f4; --card:#fff; --ink:#1d241f; --muted:#6b7670; --line:#e2e6e1;
+  --accent:#4a6b52; --accent-soft:#eaf1eb; --warn:#9a6b1f; --warn-soft:#fdf5e6;
+  --danger:#9c3b3b; --danger-soft:#fbeded; --radius:12px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Plus Jakarta Sans",system-ui,sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10}
+header h1{font-size:16px;margin:0}
+header .tag{font-size:11px;background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:99px;font-weight:600}
+header .sp{flex:1}
+main{max-width:1180px;margin:0 auto;padding:20px;display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.card h2{font-size:14px;margin:0 0 4px;letter-spacing:.01em}
+.card .sub{color:var(--muted);font-size:12.5px;margin:0 0 14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.stat b{display:block;font-size:26px;line-height:1.1}
+.stat span{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,.btn{font:600 13px/1 "Plus Jakarta Sans",sans-serif;padding:10px 15px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary:hover{filter:brightness(1.1)}
+button:disabled{opacity:.5;cursor:not-allowed}
+textarea,input[type=text],select{width:100%;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fcfdfc;color:var(--ink)}
+input[type=text]{font-family:"Plus Jakarta Sans",sans-serif}
+textarea{min-height:120px;resize:vertical}
+.pill{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600}
+.p-ok{background:var(--accent-soft);color:var(--accent)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-dan{background:var(--danger-soft);color:var(--danger)}
+.p-mute{background:#eef0ee;color:var(--muted)}
+/* tabel ter-virtualisasi */
+#viewport{height:430px;overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:#fff;position:relative}
+#spacer{position:relative}
+.trow{display:grid;grid-template-columns:30px 1.6fr 1.1fr .8fr .7fr 1.4fr;gap:10px;align-items:center;
+      padding:0 12px;height:44px;border-bottom:1px solid var(--line);font-size:13px;position:absolute;left:0;right:0}
+.thead{display:grid;grid-template-columns:30px 1.6fr 1.1fr .8fr .7fr 1.4fr;gap:10px;padding:10px 12px;
+      font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
+      position:sticky;top:0;background:#fafbfa;border-bottom:1px solid var(--line);z-index:2}
+.trow .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow .mono{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#1d241f;color:#cfe0d3;padding:12px;border-radius:9px;max-height:150px;overflow:auto;white-space:pre-wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}
+  .trow,.thead{grid-template-columns:26px 1.5fr .9fr .6fr}
+  .trow>:nth-child(5),.trow>:nth-child(6),.thead>:nth-child(5),.thead>:nth-child(6){display:none}}
+.qr{width:96px;height:96px;image-rendering:pixelated;border:1px solid var(--line);border-radius:6px}
+.note{font-size:12px;color:var(--muted)}
+.bar{height:7px;background:#eef0ee;border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Arya &amp; Kirana</h1>
+  <span class="tag">Dashboard Tamu — prototipe</span>
+  <span class="sp"></span>
+  <a class="btn" href="index.html">← Lihat undangan</a>
+</header>
+
+<main>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="grid2">
+    <!-- ============ IMPOR ============ -->
+    <div class="card">
+      <h2>1 · Impor daftar tamu</h2>
+      <p class="sub">Tempel langsung dari Excel/Google Sheets (kolom: Nama, HP, Kategori, Kuota, Alamat).
+         Sistem menormalkan nomor, membuat slug unik, dan menandai duplikat.</p>
+      <textarea id="paste" spellcheck="false" placeholder="Hans&#9;081234567890&#9;Teman&#9;2&#9;di Tempat
+Keluarga Bpk. H. Sulaiman&#9;+62 812-9999-1111&#9;Keluarga&#9;4&#9;di Sleman
+pak budi & istri&#9;62811222333&#9;Kantor&#9;2&#9;di Jakarta"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="primary" id="btnImport">Impor &amp; normalisasi</button>
+        <button id="btnSample">Isi contoh</button>
+        <button id="btnGen1000">Uji beban: 1.000 tamu</button>
+        <button id="btnUndo" disabled>Urungkan impor terakhir</button>
+      </div>
+      <div class="bar" id="bar" hidden><i></i></div>
+      <div class="log" id="log" style="margin-top:12px">Siap. Belum ada impor.</div>
+    </div>
+
+    <!-- ============ KIRIM ============ -->
+    <div class="card">
+      <h2>2 · Bagikan undangan</h2>
+      <p class="sub">Link bersifat deterministik dari slug — tidak perlu digenerate satu per satu.
+         Pengiriman memakai antrian ber-rate-limit dan bersifat idempoten.</p>
+      <div class="row">
+        <button id="btnCopyAll">Salin semua pesan (.txt)</button>
+        <button id="btnCsv">Ekspor Excel/CSV</button>
+        <button class="primary" id="btnBlast">Simulasi antrian kirim</button>
+      </div>
+      <div class="bar" id="bar2" hidden><i></i></div>
+      <div class="row" style="margin-top:14px;align-items:flex-start;gap:14px">
+        <canvas class="qr" id="qr" width="24" height="24" title="placeholder QR check-in"></canvas>
+        <div>
+          <div class="note">Pratinjau tamu terpilih</div>
+          <div id="qrName" style="font-weight:600;margin:3px 0">—</div>
+          <div class="note mono" id="qrLink" style="word-break:break-all"></div>
+          <div class="row" style="margin-top:8px">
+            <button id="btnOpenInv">Buka undangannya</button>
+            <button id="btnWa">Kirim via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+      <p class="note" style="margin-top:10px">QR di atas placeholder visual; produksi memakai QR ber-token HMAC
+         yang bisa divalidasi offline oleh scanner hari-H.</p>
+    </div>
+  </div>
+
+  <!-- ============ TABEL ============ -->
+  <div class="card">
+    <h2>3 · Kelola tamu</h2>
+    <p class="sub">Tabel ter-virtualisasi — hanya baris yang terlihat yang dirender, sehingga 10.000 tamu tetap mulus.</p>
+    <div class="row" style="margin-bottom:10px">
+      <input type="text" id="q" placeholder="Cari nama, nomor, atau kategori…" style="flex:1;min-width:200px">
+      <select id="fCat" style="width:auto"><option value="">Semua kategori</option></select>
+      <select id="fStat" style="width:auto">
+        <option value="">Semua status</option><option value="yes">Hadir</option>
+        <option value="no">Tidak hadir</option><option value="pending">Belum merespons</option>
+        <option value="dup">Mungkin duplikat</option>
+      </select>
+      <button id="btnBulk">Ubah kuota terpilih</button>
+      <button id="btnDel">Hapus terpilih</button>
+    </div>
+    <div class="thead">
+      <div><input type="checkbox" id="chkAll"></div>
+      <div>Nama</div><div>Nomor (E.164)</div><div>Kategori</div><div>Kuota</div><div>Link undangan</div>
+    </div>
+    <div id="viewport"><div id="spacer"></div></div>
+    <p class="note" id="count" style="margin-top:8px"></p>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const ROW_H = 44;
+let guests = [], lastBatch = null, selected = new Set(), filtered = [];
+
+/* ---------- normalisasi & util ---------- */
+function normPhone(raw){
+  if(!raw) return null;
+  let d = String(raw).replace(/[^\d+]/g,'');
+  d = d.replace(/^\+/,'');
+  if(d.startsWith('0')) d = '62' + d.slice(1);
+  else if(d.startsWith('8')) d = '62' + d;
+  else if(!d.startsWith('62')) return {value:'+'+d, warn:'bukan nomor Indonesia'};
+  if(d.length < 10 || d.length > 15) return {value:'+'+d, warn:'panjang nomor janggal'};
+  return {value:'+'+d};
+}
+function titleCase(s){
+  return s.trim().replace(/\s+/g,' ')
+    .replace(/\b([a-zA-ZÀ-ÿ'’]+)\b/g, w => {
+      const low = w.toLowerCase();
+      if(['dan','di','bin','binti'].includes(low)) return low;
+      if(['h','hj','kh','dr','ir','st','spd','mm'].includes(low.replace(/\./g,''))) return w.toUpperCase();
+      return low.charAt(0).toUpperCase() + low.slice(1);
+    });
+}
+function slugify(s){
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48);
+}
+function uniqueSlug(base, taken){
+  let s = base || 'tamu', i = 2;
+  while(taken.has(s)){ s = `${base}-${i++}`; }
+  taken.add(s); return s;
+}
+/* kemiripan nama sederhana (pengganti pg_trgm di sisi server) */
+function trigrams(s){ s = ' '+s.toLowerCase()+' '; const g=new Set();
+  for(let i=0;i<s.length-2;i++) g.add(s.slice(i,i+3)); return g; }
+function similar(a,b){ const A=trigrams(a),B=trigrams(b); let hit=0;
+  A.forEach(g=>{ if(B.has(g)) hit++; }); return hit/Math.max(A.size,B.size); }
+
+/* ---------- impor ---------- */
+function parse(text){
+  // hanya spasi di akhir yang dibuang — tab di awal berarti kolom nama kosong
+  const rows = text.split(/\r?\n/).map(l=>l.replace(/[ \t]+$/,'')).filter(l=>l.trim());
+  const taken = new Set(guests.map(g=>g.slug));
+  const byPhone = new Map(guests.filter(g=>g.phone).map(g=>[g.phone,g]));
+  const out = [], errs = [];
+  rows.forEach((line,i) => {
+    const c = line.split(/\t|;|,(?=\s*\+?\d)|\s{2,}/).map(x=>x.trim());
+    const name = titleCase(c[0]||'');
+    if(!name){ errs.push(`baris ${i+1}: nama kosong — dilewati`); return; }
+    const ph = normPhone(c[1]);
+    if(ph && ph.warn) errs.push(`baris ${i+1} (${name}): ${ph.warn}`);
+    const place = c[4] || 'di Tempat';
+    const g = {
+      id: crypto.randomUUID(),
+      name, phone: ph ? ph.value : null,
+      category: titleCase(c[2]||'Umum'),
+      quota: Math.max(1, parseInt(c[3],10) || 2),
+      place,
+      slug: uniqueSlug(slugify(name+' '+place), taken),
+      rsvp: 'pending', dup: false, batch: null
+    };
+    if(g.phone && byPhone.has(g.phone)) g.dup = 'nomor sama dengan ' + byPhone.get(g.phone).name;
+    else {
+      const near = guests.find(x => similar(x.name, g.name) > 0.72);
+      if(near) g.dup = 'mirip dengan ' + near.name;
+    }
+    if(g.phone) byPhone.set(g.phone, g);
+    out.push(g);
+  });
+  return { out, errs };
+}
+
+async function doImport(text){
+  const t0 = performance.now();
+  const { out, errs } = parse(text);
+  if(!out.length){ logLine('Tidak ada baris yang bisa diimpor.'); return; }
+  const batch = crypto.randomUUID();
+  out.forEach(g => g.batch = batch);
+
+  // progres hanya untuk visual; penyisipan nyata dilakukan satu kali (bulk insert)
+  const bar = $('#bar'); bar.hidden = false;
+  for(let p=0;p<=100;p+=25){ bar.firstElementChild.style.width = p+'%'; await new Promise(r=>setTimeout(r,40)); }
+  guests = guests.concat(out);
+  lastBatch = batch; $('#btnUndo').disabled = false;
+  setTimeout(()=>{ bar.hidden = true; bar.firstElementChild.style.width='0'; }, 300);
+
+  const dups = out.filter(g=>g.dup).length;
+  logLine(
+    `✓ ${out.length} tamu diimpor dalam ${Math.round(performance.now()-t0)} ms (1 bulk insert)\n` +
+    `  nomor dinormalisasi ke E.164 · slug unik dibuat otomatis\n` +
+    (dups ? `  ⚠ ${dups} baris ditandai mungkin duplikat (tidak dibuang, hanya dilabeli)\n` : '') +
+    (errs.length ? '  ⚠ ' + errs.slice(0,4).join('\n  ⚠ ') + (errs.length>4?`\n  …dan ${errs.length-4} peringatan lain`:'') : '')
+  );
+  refresh();
+}
+
+function logLine(s){ const l=$('#log'); l.textContent = s + '\n\n' + l.textContent; }
+
+/* ---------- data uji 1.000 tamu ---------- */
+const FIRST='Agus Budi Citra Dewi Eka Fajar Gita Hana Indra Joko Kirana Lestari Mahendra Nadia Oka Putri Rizki Sari Tono Umi Vina Wahyu Yoga Zahra'.split(' ');
+const LAST='Pratama Wijaya Santoso Nugroho Hidayat Permata Saputra Kusuma Maharani Siregar Simatupang Halim Gunawan Rahayu Anggraini'.split(' ');
+const CATS=['Keluarga','Teman','Kantor','Tetangga','Relasi'];
+function generate(n){
+  const lines=[];
+  for(let i=0;i<n;i++){
+    const nm = FIRST[i%FIRST.length]+' '+LAST[(i*7)%LAST.length];
+    const ph = '08'+String(1000000000+((i*7919)%899999999));
+    lines.push([nm, ph, CATS[i%CATS.length], (i%4)+1, 'di Tempat'].join('\t'));
+  }
+  // sengaja sisipkan 3 kasus kotor agar penanganannya terlihat
+  lines.push('pak budi & istri\t0812 3456 7890\tKantor\t2\tdi Jakarta');
+  lines.push('PAK BUDI & ISTRI\t+62 812-3456-7890\tKantor\t2\tdi Jakarta');
+  lines.push('\t0899\tTeman\t2\tdi Tempat');
+  return lines.join('\n');
+}
+
+/* ---------- filter + render ter-virtualisasi ---------- */
+function applyFilter(){
+  const q = $('#q').value.trim().toLowerCase();
+  const cat = $('#fCat').value, st = $('#fStat').value;
+  filtered = guests.filter(g => {
+    if(cat && g.category !== cat) return false;
+    if(st === 'dup' ? !g.dup : st && g.rsvp !== st) return false;
+    if(!q) return true;
+    return g.name.toLowerCase().includes(q) || (g.phone||'').includes(q) || g.category.toLowerCase().includes(q);
+  });
+}
+const vp = $('#viewport'), spacer = $('#spacer');
+function renderRows(){
+  spacer.style.height = (filtered.length * ROW_H) + 'px';
+  const start = Math.max(0, Math.floor(vp.scrollTop / ROW_H) - 4);
+  const end = Math.min(filtered.length, start + Math.ceil(vp.clientHeight / ROW_H) + 8);
+  let html = '';
+  for(let i=start;i<end;i++){
+    const g = filtered[i];
+    const badge = g.dup ? `<span class="pill p-warn" title="${g.dup}">dup?</span>`
+      : g.rsvp==='yes' ? '<span class="pill p-ok">hadir</span>'
+      : g.rsvp==='no' ? '<span class="pill p-dan">tidak</span>'
+      : '<span class="pill p-mute">belum</span>';
+    html += `<div class="trow" style="top:${i*ROW_H}px" data-id="${g.id}">
+      <div><input type="checkbox" data-sel="${g.id}" ${selected.has(g.id)?'checked':''}></div>
+      <div class="nm">${esc(g.name)} ${badge}</div>
+      <div class="mono">${g.phone||'<span style="opacity:.4">—</span>'}</div>
+      <div>${esc(g.category)}</div>
+      <div>${g.quota}</div>
+      <div class="mono" title="?to=${g.slug}">?to=${g.slug}</div>
+    </div>`;
+  }
+  spacer.innerHTML = html;
+}
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function refresh(){
+  applyFilter(); renderRows(); renderStats(); renderCats(); renderQR();
+  $('#count').textContent = `${filtered.length.toLocaleString('id-ID')} dari ${guests.length.toLocaleString('id-ID')} tamu · ${selected.size} terpilih`;
+}
+function renderStats(){
+  const yes = guests.filter(g=>g.rsvp==='yes'), no = guests.filter(g=>g.rsvp==='no');
+  const pax = yes.reduce((a,g)=>a+g.quota,0);
+  const dup = guests.filter(g=>g.dup).length;
+  const noPhone = guests.filter(g=>!g.phone).length;
+  $('#stats').innerHTML = [
+    ['Total tamu', guests.length.toLocaleString('id-ID')],
+    ['Konfirmasi hadir', yes.length.toLocaleString('id-ID')],
+    ['Perkiraan pax', pax.toLocaleString('id-ID')],
+    ['Tidak hadir', no.length.toLocaleString('id-ID')],
+    ['Mungkin duplikat', dup.toLocaleString('id-ID')],
+    ['Tanpa nomor HP', noPhone.toLocaleString('id-ID')]
+  ].map(([l,v])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+}
+function renderCats(){
+  const sel = $('#fCat'), cur = sel.value;
+  const cats = [...new Set(guests.map(g=>g.category))].sort();
+  sel.innerHTML = '<option value="">Semua kategori</option>' + cats.map(c=>`<option>${esc(c)}</option>`).join('');
+  sel.value = cur;
+}
+
+/* ---------- pratinjau QR + pesan ---------- */
+function renderQR(){
+  const g = filtered[0]; if(!g) return;
+  $('#qrName').textContent = g.name;
+  const link = `${location.origin}${location.pathname.replace('dashboard.html','index.html')}?to=${g.slug}`;
+  $('#qrLink').textContent = link;
+  $('#btnOpenInv').onclick = () => open(link, '_blank');
+  $('#btnWa').onclick = () => {
+    if(!g.phone) return alert('Tamu ini belum punya nomor HP.');
+    open(`https://wa.me/${g.phone.replace('+','')}?text=${encodeURIComponent(waText(g, link))}`, '_blank');
+  };
+  // placeholder visual, deterministik dari slug
+  const c = $('#qr'), ctx = c.getContext('2d'); ctx.clearRect(0,0,24,24);
+  let h = 0; for(const ch of g.slug) h = (h*31 + ch.charCodeAt(0)) >>> 0;
+  ctx.fillStyle = '#1d241f';
+  for(let y=0;y<24;y++) for(let x=0;x<24;x++){
+    h = (h*1103515245 + 12345) >>> 0;
+    if((h>>>16 & 1)) ctx.fillRect(x,y,1,1);
+  }
+  [[1,1],[17,1],[1,17]].forEach(([ox,oy])=>{
+    ctx.clearRect(ox-1,oy-1,8,8); ctx.fillRect(ox,oy,6,6);
+    ctx.clearRect(ox+1,oy+1,4,4); ctx.fillRect(ox+2,oy+2,2,2);
+  });
+}
+function waText(g, link){
+  return `Kepada Yth. ${g.name}\n${g.place}\n\n`
+    + `Dengan memohon rahmat Tuhan, kami mengundang Bapak/Ibu/Saudara/i pada pernikahan kami:\n\n`
+    + `Arya & Kirana\nMinggu, 20 Juni 2027\nPendopo Kabanaran, Bantul, DI Yogyakarta\n\n`
+    + `Undangan lengkap (termasuk konfirmasi kehadiran):\n${link}\n\n`
+    + `Merupakan kehormatan bagi kami apabila berkenan hadir. Terima kasih. 🤍`;
+}
+
+/* ---------- aksi ---------- */
+$('#btnSample').onclick = () => { $('#paste').value =
+`Hans\t081234567890\tTeman\t2\tdi Tempat
+Keluarga Bpk. H. Sulaiman\t+62 812-9999-1111\tKeluarga\t4\tdi Sleman
+pak budi & istri\t62811222333\tKantor\t2\tdi Jakarta
+Rekan Kantor Jakarta\t0813 7777 8888\tKantor\t6\tdi Jakarta`; };
+
+$('#btnImport').onclick = () => doImport($('#paste').value);
+$('#btnGen1000').onclick = async () => {
+  $('#btnGen1000').disabled = true;
+  await doImport(generate(1000));
+  $('#btnGen1000').disabled = false;
+};
+$('#btnUndo').onclick = () => {
+  if(!lastBatch) return;
+  const before = guests.length;
+  guests = guests.filter(g => g.batch !== lastBatch);
+  logLine(`↩ Impor terakhir diurungkan — ${before - guests.length} tamu dihapus (satu transaksi).`);
+  lastBatch = null; $('#btnUndo').disabled = true; refresh();
+};
+$('#btnCsv').onclick = () => {
+  const head = 'nama,nomor,kategori,kuota,alamat,slug,link,status\n';
+  const base = location.href.replace(/dashboard\.html.*$/, 'index.html');
+  const body = guests.map(g =>
+    [g.name, g.phone||'', g.category, g.quota, g.place, g.slug, base+'?to='+g.slug, g.rsvp]
+    .map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download('daftar-tamu.csv', head+body, 'text/csv');
+};
+$('#btnCopyAll').onclick = () => {
+  const base = location.href.replace(/dashboard\.html.*$/, 'index.html');
+  const txt = guests.map(g => `=== ${g.name} (${g.phone||'tanpa nomor'}) ===\n${waText(g, base+'?to='+g.slug)}`).join('\n\n');
+  download('pesan-undangan.txt', txt, 'text/plain');
+  logLine(`✓ ${guests.length} pesan siap tempel diunduh.`);
+};
+$('#btnBlast').onclick = async () => {
+  const targets = guests.filter(g => g.phone);
+  if(!targets.length) return logLine('Belum ada tamu dengan nomor HP.');
+  const b = $('#bar2'); b.hidden = false;
+  const RATE = 10;                                   // pesan/detik, mengikuti tier WhatsApp Cloud API
+  logLine(`▶ Antrian dibuat untuk ${targets.length} pesan · batas ${RATE} pesan/detik · retry 3x backoff\n`
+        + `  perkiraan selesai ${Math.ceil(targets.length/RATE)} detik · idempoten per (tamu, kanal, jadwal)`);
+  for(let i=0;i<=20;i++){
+    b.firstElementChild.style.width = (i*5)+'%';
+    await new Promise(r=>setTimeout(r,55));
+  }
+  // simulasi: sebagian kecil gagal dan masuk daftar tindak lanjut
+  const failed = Math.round(targets.length*0.018);
+  targets.forEach((g,i)=>{ if(i%3===0) g.rsvp = 'yes'; else if(i%11===0) g.rsvp='no'; });
+  logLine(`✓ Terkirim ${targets.length-failed} · gagal ${failed} (masuk daftar "perlu ditindak", bisa diekspor)\n`
+        + `  status delivered/read diperbarui lewat webhook, bukan polling.`);
+  b.hidden = true; b.firstElementChild.style.width='0';
+  refresh();
+};
+$('#btnBulk').onclick = () => {
+  if(!selected.size) return alert('Pilih dulu beberapa tamu.');
+  const v = parseInt(prompt(`Ubah kuota untuk ${selected.size} tamu menjadi:`, '2'),10);
+  if(!v || v<1) return;
+  guests.forEach(g => { if(selected.has(g.id)) g.quota = v; });
+  logLine(`✓ Kuota ${selected.size} tamu diubah menjadi ${v} dalam satu operasi.`);
+  refresh();
+};
+$('#btnDel').onclick = () => {
+  if(!selected.size) return alert('Pilih dulu beberapa tamu.');
+  if(!confirm(`Hapus ${selected.size} tamu? (soft delete 30 hari di produksi)`)) return;
+  guests = guests.filter(g => !selected.has(g.id));
+  logLine(`✓ ${selected.size} tamu dihapus.`); selected.clear(); refresh();
+};
+$('#chkAll').onchange = e => {
+  if(e.target.checked) filtered.forEach(g => selected.add(g.id));
+  else selected.clear();
+  refresh();
+};
+spacer.addEventListener('change', e => {
+  const id = e.target.dataset.sel; if(!id) return;
+  e.target.checked ? selected.add(id) : selected.delete(id);
+  $('#count').textContent = `${filtered.length.toLocaleString('id-ID')} dari ${guests.length.toLocaleString('id-ID')} tamu · ${selected.size} terpilih`;
+});
+vp.addEventListener('scroll', renderRows, { passive:true });
+['#q','#fCat','#fStat'].forEach(s => $(s).addEventListener('input', () => { vp.scrollTop = 0; refresh(); }));
+
+function download(name, text, type){
+  const url = URL.createObjectURL(new Blob([text],{type}));
+  const a = document.createElement('a'); a.href=url; a.download=name; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- mulai ---------- */
+$('#btnSample').click();
+doImport($('#paste').value);
+})();
+</script>
+</body>
+</html>

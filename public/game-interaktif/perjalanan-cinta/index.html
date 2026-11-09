@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#7cc8ff" />
+<title>Perjalanan Cinta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<style>
+  :root { --ink: #2a1a1f; --pink: #ff5d8f; --pink-2: #ffb3c8; --cream: #fff7ea; --yellow: #ffd447; --teal: #2fa9a8; --font: 'Fredoka', system-ui, sans-serif; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #a8dcff; font-family: var(--font); color: var(--ink); touch-action: none; }
+  canvas#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+  .btn { padding: 14px 26px; border-radius: 18px; font-weight: 700; font-size: 19px; background: var(--yellow); border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink); transition: transform .1s, box-shadow .1s; }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  .btn.pink { background: var(--pink); color: #fff; }
+  .btn.ghost { background: #fff; }
+  .panel { background: var(--cream); border: 3px solid var(--ink); border-radius: 22px; box-shadow: 0 7px 0 var(--ink); }
+
+  /* judul */
+  #title { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,.55), rgba(255,214,228,.35) 60%, rgba(120,190,255,.25)); z-index: 20; }
+  #title .card { text-align: center; padding: 26px 26px 22px; max-width: 440px; width: 100%; animation: bounceIn .7s cubic-bezier(.2,1.5,.4,1); }
+  .demo { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--ink); color: var(--yellow); padding: 5px 12px; border-radius: 999px; }
+  #title h1 { margin: 12px 0 0; font-size: clamp(34px, 9vw, 50px); line-height: 1; color: var(--pink); -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; text-shadow: 0 4px 0 var(--ink); }
+  #title h2 { margin: 6px 0 4px; font-size: 26px; font-weight: 600; }
+  #title p { margin: 0 0 18px; font-size: 16px; opacity: .8; }
+  #title .hint { margin-top: 14px; font-size: 13px; opacity: .65; }
+  @keyframes bounceIn { from { transform: scale(.6); opacity: 0; } }
+  #loading { font-size: 15px; opacity: .7; margin-bottom: 12px; }
+
+  /* HUD */
+  #hud { position: fixed; top: max(10px, env(safe-area-inset-top)); left: 10px; right: 10px; display: flex; gap: 8px; align-items: center; z-index: 5; pointer-events: none; }
+  .chip { background: var(--cream); border: 3px solid var(--ink); border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 15px; box-shadow: 0 3px 0 var(--ink); white-space: nowrap; }
+  #hChapter { margin-right: auto; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #hud .demo { box-shadow: 0 3px 0 rgba(0,0,0,.2); }
+
+  #banner { position: fixed; left: 50%; top: 22%; transform: translate(-50%, 0); text-align: center; z-index: 6; pointer-events: none; opacity: 0; transition: opacity .5s, transform .5s; }
+  #banner.show { opacity: 1; transform: translate(-50%, -10px); }
+  #banner b { display: block; font-size: clamp(26px, 7vw, 44px); color: #fff; -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; text-shadow: 0 4px 0 var(--ink); }
+  #banner span { display: inline-block; margin-top: 6px; font-weight: 600; background: var(--ink); color: #fff; padding: 4px 14px; border-radius: 999px; }
+
+  #prompt { position: fixed; left: 50%; bottom: max(28px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 6; animation: bob 1.2s ease-in-out infinite; white-space: nowrap; }
+  #prompt kbd { display: inline-grid; place-items: center; width: 26px; height: 26px; margin-left: 8px; border-radius: 7px; background: var(--ink); color: #fff; font: 700 14px var(--font); }
+  @keyframes bob { 50% { transform: translate(-50%, -5px); } }
+  body.touch #prompt kbd { display: none; }
+  body.touch #prompt { left: auto; right: 20px; transform: none; bottom: max(40px, env(safe-area-inset-bottom)); animation: none; }
+
+  #joy { position: fixed; left: 26px; bottom: max(30px, env(safe-area-inset-bottom)); width: 130px; height: 130px; border-radius: 50%; background: rgba(255,255,255,.35); border: 3px solid rgba(42,26,31,.5); z-index: 5; display: none; }
+  #knob { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px; border-radius: 50%; background: var(--cream); border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink); }
+  body.touch #joy { display: block; }
+  #title:not([hidden]) ~ #joy, #title:not([hidden]) ~ #prompt { display: none !important; }
+
+  #mg { position: fixed; top: 64px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; gap: 8px; }
+  #mg .chip { font-size: 18px; }
+
+  /* dialog */
+  #dialog { position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(720px, calc(100% - 24px)); z-index: 8; display: flex; gap: 14px; align-items: flex-end; padding: 16px 16px 16px 20px; cursor: pointer; animation: up .3s ease-out; }
+  @keyframes up { from { transform: translate(-50%, 30px); opacity: 0; } }
+  #dialog .txt { flex: 1; min-height: 86px; }
+  #dName { display: inline-block; font-weight: 700; font-size: 15px; background: var(--pink); color: #fff; border: 2px solid var(--ink); padding: 2px 12px; border-radius: 999px; margin-bottom: 6px; }
+  #dName.him { background: var(--teal); }
+  #dText { margin: 0; font-size: 18px; line-height: 1.4; font-weight: 500; }
+  #dMore { float: right; font-size: 13px; opacity: .6; margin-top: 4px; }
+  #dPortrait { width: 96px; height: 96px; border-radius: 18px; border: 3px solid var(--ink); background: #ffe3ef; flex: none; margin-top: -46px; box-shadow: 0 4px 0 var(--ink); object-fit: cover; }
+
+  /* modal umum */
+  .modal { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 16px; background: rgba(42,26,31,.35); }
+  .modal .panel { width: min(460px, 100%); padding: 20px; animation: bounceIn .45s cubic-bezier(.2,1.5,.4,1); max-height: calc(100dvh - 32px); overflow: auto; }
+  .tag { display: inline-block; font-size: 13px; font-weight: 700; background: var(--yellow); border: 2px solid var(--ink); border-radius: 999px; padding: 2px 10px; }
+  #quiz h3 { margin: 10px 0 14px; font-size: 22px; line-height: 1.25; }
+  #qOpts { display: grid; gap: 10px; }
+  .opt { text-align: left; padding: 12px 14px; border-radius: 14px; border: 3px solid var(--ink); background: #fff; font-weight: 600; font-size: 17px; box-shadow: 0 4px 0 var(--ink); display: flex; gap: 10px; align-items: center; transition: transform .1s; }
+  .opt b { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--pink-2); border: 2px solid var(--ink); font-size: 14px; }
+  .opt:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+  .opt.right { background: #b8f0c2; } .opt.wrong { background: #ffc2c2; animation: shake .4s; }
+  @keyframes shake { 25%, 75% { transform: translateX(-6px); } 50% { transform: translateX(6px); } }
+  #qFeed { margin: 12px 0 0; font-weight: 600; min-height: 1.4em; }
+
+  #memory .panel { text-align: center; }
+  .polaroid { background: #fff; border: 3px solid var(--ink); border-radius: 6px; padding: 12px 12px 14px; margin: 12px auto; width: min(340px, 100%); transform: rotate(-2deg); box-shadow: 0 6px 0 var(--ink); }
+  .polaroid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; border-radius: 3px; border: 2px solid var(--ink); }
+  .polaroid p { margin: 10px 0 0; font-weight: 600; font-size: 16px; }
+  #memory h3 { margin: 6px 0 0; font-size: 24px; }
+
+  #finale .panel { text-align: center; }
+  #finale h3 { margin: 6px 0 4px; font-size: 26px; color: var(--pink); -webkit-text-stroke: 1px var(--ink); }
+  .stats { display: flex; gap: 8px; margin: 12px 0; }
+  .stats div { flex: 1; background: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 8px 4px; font-size: 13px; font-weight: 600; }
+  .stats b { display: block; font-size: 24px; }
+  #fMsg { width: 100%; min-height: 96px; border: 3px solid var(--ink); border-radius: 14px; padding: 12px; font: 500 16px var(--font); resize: none; outline: none; user-select: text; -webkit-user-select: text; background: #fff; }
+  #finale label { display: block; text-align: left; font-weight: 700; margin: 6px 0 6px; }
+  .row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
+  .row .btn { flex: 1; min-width: 150px; }
+
+  #fly { position: fixed; left: 50%; top: 55%; z-index: 12; width: min(320px, 80vw); padding: 14px 16px; background: #fff; border: 3px solid var(--ink); border-radius: 14px; box-shadow: 0 5px 0 var(--ink); font-weight: 600; text-align: center; pointer-events: none; animation: fly 3.4s cubic-bezier(.5,0,.6,1) forwards; }
+  @keyframes fly { 0% { transform: translate(-50%, 0) scale(1) rotate(0); opacity: 1; } 30% { transform: translate(-50%, -40px) scale(.9) rotate(-4deg); } 100% { transform: translate(-50%, -75vh) scale(.15) rotate(12deg); opacity: 0; } }
+  #amen { position: fixed; inset: 0; z-index: 11; display: grid; place-items: center; text-align: center; padding: 20px; pointer-events: none; }
+  #amen > div { pointer-events: auto; animation: bounceIn .6s cubic-bezier(.2,1.5,.4,1); }
+  #amen p { font-size: clamp(24px, 6vw, 38px); font-weight: 700; color: #fff; -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; text-shadow: 0 4px 0 var(--ink); margin: 0 0 18px; }
+
+  #toast { position: fixed; left: 50%; top: 112px; transform: translate(-50%, -10px); z-index: 15; opacity: 0; transition: .3s; pointer-events: none; }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  #fade { position: fixed; inset: 0; background: #fff; z-index: 9; opacity: 0; pointer-events: none; transition: opacity .6s; }
+
+  @media (max-height: 500px) {
+    #dialog { padding: 10px 12px; } #dText { font-size: 15px; } #dialog .txt { min-height: 60px; }
+    #dPortrait { width: 70px; height: 70px; margin-top: -30px; }
+    .modal .panel { padding: 14px; } #quiz h3 { font-size: 18px; margin: 6px 0 8px; } .opt { padding: 8px 12px; font-size: 15px; }
+    #qOpts { grid-template-columns: 1fr 1fr; }
+    #joy { width: 110px; height: 110px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="title">
+  <div class="card panel">
+    <span class="demo" id="tDemo"></span>
+    <h1 id="tTitle"></h1>
+    <h2 id="tSub"></h2>
+    <p id="tTag"></p>
+    <div id="loading">Menyiapkan dunia…</div>
+    <button class="btn pink" id="btnStart" hidden></button>
+    <div class="hint" id="tHint"></div>
+  </div>
+</div>
+
+<div id="hud" hidden>
+  <span class="chip" id="hChapter"></span>
+  <span class="chip" id="hMem">📷 0/5</span>
+  <span class="chip" id="hScore">💖 0</span>
+</div>
+<div id="banner"><b id="bTitle"></b><span id="bPlace"></span></div>
+<button class="btn pink" id="prompt" hidden><span id="pText"></span><kbd>E</kbd></button>
+<div id="joy"><div id="knob"></div></div>
+<div id="mg" hidden><span class="chip" id="mgCount"></span><span class="chip" id="mgTime"></span></div>
+
+<div id="dialog" class="panel" hidden>
+  <div class="txt"><span id="dName"></span><p id="dText"></p><span id="dMore">ketuk / E ▸</span></div>
+  <img id="dPortrait" alt="" />
+</div>
+
+<div id="quiz" class="modal" hidden>
+  <div class="panel"><span class="tag">❓ Kuis Cinta</span><h3 id="qText"></h3><div id="qOpts"></div><p id="qFeed"></p></div>
+</div>
+
+<div id="memory" class="modal" hidden>
+  <div class="panel">
+    <span class="tag">📷 Kenangan terbuka!</span>
+    <h3 id="mTitle"></h3>
+    <div class="polaroid"><img id="mImg" alt="" /><p id="mCap"></p></div>
+    <button class="btn" id="mOk">Simpan kenangan 💖</button>
+  </div>
+</div>
+
+<div id="finale" class="modal" hidden>
+  <div class="panel">
+    <span class="tag">🎉 Perjalanan selesai</span>
+    <h3 id="fTitle"></h3>
+    <div class="stats"><div><b id="fScore">0</b>Poin</div><div><b id="fQuiz">0/5</b>Kuis benar</div><div><b id="fMem">0/5</b>Kenangan</div></div>
+    <label for="fMsg" id="fAsk"></label>
+    <textarea id="fMsg" maxlength="300"></textarea>
+    <div class="row"><button class="btn pink" id="fSend"></button></div>
+  </div>
+</div>
+<div id="amen" hidden><div><p id="aText"></p><div class="row"><button class="btn" id="aRoam"></button><button class="btn ghost" id="aReplay"></button></div></div></div>
+
+<div id="toast" class="chip"></div>
+<div id="fade"></div>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

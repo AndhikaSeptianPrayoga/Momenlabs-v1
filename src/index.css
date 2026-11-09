@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* token warna dasar (terang) */
+  :root {
+    --c-ink: 22 18 31;
+    --c-ink-soft: 42 36 54;
+    --c-ink-mute: 107 100 120;
+    --c-cream: 251 246 239;
+    --c-cream-deep: 243 234 223;
+    --c-rose-brand: 232 87 122;
+    --c-rose-soft: 247 201 211;
+    --c-peach: 255 179 138;
+    --c-violet-brand: 124 92 255;
+    --c-paper: 255 255 255;
+    /* hitam & emas Momenlabs (template bisa menimpa ini per tema) */
+    --c-gold: 201 164 92;
+    --c-gold-light: 233 210 154;
+    --c-gold-deep: 156 122 60;
+    --c-foil-a: 246 231 184;
+    --c-foil-b: 212 175 106;
+    --c-noir: 11 10 12;
+    --c-noir-900: 6 5 7;
+    --c-noir-800: 17 16 19;
+    --c-noir-700: 25 23 28;
+    --c-noir-600: 36 33 42;
+  }
+  /* key visual Momenlabs: hitam & gold (dipakai landing page) */
+  .theme-noir {
+    --c-ink: 239 227 200;
+    --c-ink-soft: 247 238 219;
+    --c-ink-mute: 160 150 132;
+    --c-cream: 11 10 12;
+    --c-cream-deep: 17 16 19;
+    --c-rose-brand: 201 164 92;
+    --c-rose-soft: 233 210 154;
+    --c-peach: 243 226 179;
+    --c-violet-brand: 156 122 60;
+    --c-paper: 22 20 25;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-noir font-sans text-ink antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::selection { background: #c9a45c; color: #0b0a0c; }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(100deg, #f6e7b8 0%, #d4af6a 40%, #9c7a3c 70%, #e9d29a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---------- Template: Dark Elegance (hitam & gold) ---------- */
+@layer utilities {
+  .text-foil {
+    background: linear-gradient(135deg, rgb(var(--c-foil-a)) 0%, rgb(var(--c-foil-b)) 30%, rgb(var(--c-gold-deep)) 55%, rgb(var(--c-gold-light)) 80%, rgb(var(--c-gold)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-foil {
+    background: linear-gradient(135deg, rgb(var(--c-foil-a)) 0%, rgb(var(--c-foil-b)) 30%, rgb(var(--c-gold-deep)) 55%, rgb(var(--c-gold-light)) 80%, rgb(var(--c-gold)) 100%);
+  }
+  .shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 4s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+}

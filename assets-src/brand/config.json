@@ -1,0 +1,9 @@
+{
+  "sheet": "assets-src/brand/logo-source.jpg",
+  "outDir": "public/brand",
+  "sprites": {
+    "logo": { "box": [136, 171, 1002, 278], "global": true },
+    "logo-mark": { "box": [136, 171, 340, 278], "global": true }
+  },
+  "photos": {}
+}

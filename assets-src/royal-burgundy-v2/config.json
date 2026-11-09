@@ -1,0 +1,116 @@
+{
+  "sheet": "assets-src/royal-burgundy-v2/sheet.webp",
+  "outDir": "public/templates/royal-burgundy-v2",
+  "bgColor": [
+    82,
+    1,
+    1
+  ],
+  "bgWeights": [
+    1,
+    4,
+    4
+  ],
+  "bgSlack": 22,
+  "threshold": 20,
+  "feather": 70,
+  "trimEdges": 0.05,
+  "sprites": {
+    "frameLeft": {
+      "box": [
+        150,
+        0,
+        262,
+        512
+      ],
+      "clear": [
+        [
+          228,
+          0,
+          34,
+          260
+        ]
+      ]
+    },
+    "frameRight": {
+      "box": [
+        1318,
+        0,
+        128,
+        512
+      ],
+      "clear": [
+        [
+          104,
+          90,
+          24,
+          180
+        ]
+      ]
+    },
+    "terrace": [
+      158,
+      528,
+      1294,
+      234
+    ],
+    "statue": [
+      172,
+      762,
+      82,
+      214
+    ],
+    "urnRoses": [
+      260,
+      836,
+      96,
+      134
+    ],
+    "candelabra": [
+      366,
+      780,
+      58,
+      190
+    ],
+    "fountain": {
+      "box": [
+        436,
+        782,
+        192,
+        186
+      ],
+      "global": true
+    },
+    "column": [
+      652,
+      762,
+      92,
+      210
+    ],
+    "cypress": [
+      774,
+      756,
+      74,
+      216
+    ],
+    "cloud": [
+      892,
+      800,
+      182,
+      90
+    ],
+    "drape": [
+      1124,
+      840,
+      138,
+      112
+    ],
+    "archGate": [
+      1060,
+      530,
+      352,
+      222
+    ]
+  },
+  "photos": {}
+}

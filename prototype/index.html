@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Wedding of Arya &amp; Kirana</title>
+<meta name="description" content="Undangan pernikahan Arya Pradipta &amp; Kirana Maheswari — Minggu, 20 Juni 2027.">
+<meta property="og:title" content="The Wedding of Arya &amp; Kirana">
+<meta property="og:description" content="Minggu, 20 Juni 2027 · Pendopo Kabanaran, Yogyakarta">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f6f3ec">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="is-locked">
+
+<!-- ============ 1. SAMPUL / GERBANG ============ -->
+<div class="cover" id="cover">
+  <div class="cover-inner">
+    <p class="eyebrow">The Wedding Of</p>
+    <div class="monogram">A &amp; K</div>
+    <h1>Arya &amp; Kirana</h1>
+    <p class="date">20 . 06 . 2027</p>
+
+    <div class="guest-card">
+      <small>Kepada Yth. Bapak/Ibu/Saudara/i</small>
+      <div class="guest-name" id="guestName">Tamu Undangan</div>
+      <div class="guest-place" id="guestPlace">di Tempat</div>
+    </div>
+
+    <button class="btn btn-solid" id="openBtn">✦ Buka Undangan</button>
+    <p class="note" style="margin-top:18px">Musik akan diputar setelah undangan dibuka</p>
+  </div>
+</div>
+
+<main class="shell" id="shell">
+
+  <!-- ============ 2. HERO ============ -->
+  <section class="hero" id="home">
+    <svg class="ornament" viewBox="0 0 120 40" fill="none" aria-hidden="true">
+      <path d="M2 20h36M82 20h36" stroke="#b08d57" stroke-width="1"/>
+      <path d="M60 8c6 6 6 18 0 24-6-6-6-18 0-24z" stroke="#8a9a84" stroke-width="1"/>
+      <circle cx="46" cy="20" r="2" fill="#b08d57"/><circle cx="74" cy="20" r="2" fill="#b08d57"/>
+    </svg>
+    <p class="eyebrow">Dengan memohon rahmat Tuhan</p>
+    <h1>Arya<br><span style="font-size:.5em;color:var(--gold)">&amp;</span><br>Kirana</h1>
+    <div class="divider"></div>
+    <p class="date eyebrow" style="margin:0">Minggu, 20 Juni 2027</p>
+  </section>
+
+  <!-- ============ 3. PASANGAN ============ -->
+  <section id="couple">
+    <div class="center reveal">
+      <p class="eyebrow">Assalamu'alaikum Wr. Wb.</p>
+      <p>Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir
+         pada acara pernikahan kami.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="couple-grid">
+      <div class="person reveal">
+        <div class="portrait"><div>A</div></div>
+        <h3>Arya Pradipta, S.T.</h3>
+        <p class="meta">Putra Pertama dari<br>Bapak Suryo Wibowo &amp; Ibu Ratna Dewi</p>
+      </div>
+      <div class="amp reveal">&amp;</div>
+      <div class="person reveal">
+        <div class="portrait"><div>K</div></div>
+        <h3>Kirana Maheswari, S.Psi.</h3>
+        <p class="meta">Putri Kedua dari<br>Bapak Hendra Gunawan &amp; Ibu Lestari Putri</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. HITUNG MUNDUR ============ -->
+  <section id="date" style="background:var(--paper-2)">
+    <div class="center reveal">
+      <p class="eyebrow">Save the Date</p>
+      <h2>Minggu, 20 Juni 2027</h2>
+      <div class="countdown" id="countdown">
+        <div class="cd-box"><b data-cd="d">0</b><span>Hari</span></div>
+        <div class="cd-box"><b data-cd="h">0</b><span>Jam</span></div>
+        <div class="cd-box"><b data-cd="m">0</b><span>Menit</span></div>
+        <div class="cd-box"><b data-cd="s">0</b><span>Detik</span></div>
+      </div>
+      <a class="btn btn-ghost" id="calBtn" href="#">🗓 Simpan ke kalender</a>
+    </div>
+  </section>
+
+  <!-- ============ 5. ACARA ============ -->
+  <section id="event">
+    <div class="center reveal">
+      <p class="eyebrow">Rangkaian Acara</p>
+      <h2>Waktu &amp; Tempat</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="event-card reveal">
+      <h3>Akad Nikah</h3>
+      <p class="when">Minggu, 20 Juni 2027 · 08.00 – 10.00 WIB</p>
+      <p class="where">Pendopo Kabanaran<br>Jl. Parangtritis KM 6, Bantul, DI Yogyakarta</p>
+    </div>
+
+    <div class="event-card reveal">
+      <h3>Resepsi</h3>
+      <p class="when">Minggu, 20 Juni 2027 · 11.00 – 14.00 WIB</p>
+      <p class="where">Pendopo Kabanaran<br>Jl. Parangtritis KM 6, Bantul, DI Yogyakarta</p>
+      <p class="note" id="sessionNote" hidden></p>
+      <a class="btn btn-ghost" style="margin-top:14px" target="_blank" rel="noopener"
+         href="https://maps.google.com/?q=Pendopo+Kabanaran+Bantul+Yogyakarta">📍 Lihat lokasi</a>
+    </div>
+  </section>
+
+  <!-- ============ 6. CERITA ============ -->
+  <section id="story" style="background:var(--paper-2)">
+    <div class="center reveal">
+      <p class="eyebrow">Our Story</p>
+      <h2>Perjalanan Kami</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal"><div class="year">2019</div><h3>Pertama Bertemu</h3>
+        <p>Satu kepanitiaan kampus, dua orang yang sama-sama tidak menyangka akan sejauh ini.</p></div>
+      <div class="tl-item reveal"><div class="year">2022</div><h3>Menjalani Bersama</h3>
+        <p>Beda kota, beda jam kerja, tapi tidak pernah benar-benar berjauhan.</p></div>
+      <div class="tl-item reveal"><div class="year">2027</div><h3>Melangkah ke Pelaminan</h3>
+        <p>Dan di hari itu, kami ingin orang-orang terbaik kami ikut menyaksikan.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 7. GALERI ============ -->
+  <section id="gallery">
+    <div class="center reveal">
+      <p class="eyebrow">Gallery</p>
+      <h2>A Love to Remember</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="gallery reveal" id="gallery-grid">
+      <div>foto 1</div><div>foto 2</div><div>foto 3</div>
+      <div>foto 4</div><div>foto 5</div><div>foto 6</div><div>foto 7</div>
+    </div>
+    <p class="note center" style="margin-top:14px">Gambar hanya dimuat saat bagian ini terlihat (lazy load).</p>
+  </section>
+
+  <!-- ============ 8. RSVP ============ -->
+  <section id="rsvp" style="background:var(--paper-2)">
+    <div class="center reveal">
+      <p class="eyebrow">Konfirmasi Kehadiran</p>
+      <h2>RSVP</h2>
+      <div class="divider"></div>
+    </div>
+
+    <form class="reveal" id="rsvpForm" novalidate>
+      <div class="form-field">
+        <label for="rName">Nama</label>
+        <input class="input" id="rName" name="name" required autocomplete="name">
+      </div>
+
+      <div class="form-field">
+        <label>Apakah akan hadir?</label>
+        <div class="choice">
+          <input type="radio" name="response" id="rYes" value="yes" checked><label for="rYes">Hadir</label>
+          <input type="radio" name="response" id="rMaybe" value="maybe"><label for="rMaybe">Ragu</label>
+          <input type="radio" name="response" id="rNo" value="no"><label for="rNo">Tidak</label>
+        </div>
+      </div>
+
+      <div class="form-field" id="participantField">
+        <label for="rCount">Jumlah yang hadir</label>
+        <select id="rCount" name="participants"></select>
+        <p class="note" id="quotaNote" style="margin:7px 0 0"></p>
+      </div>
+
+      <div class="form-field">
+        <label for="rMsg">Ucapan &amp; doa <span style="text-transform:none;letter-spacing:0">(opsional)</span></label>
+        <textarea id="rMsg" name="message" maxlength="400"></textarea>
+      </div>
+
+      <button class="btn btn-solid btn-block" type="submit" id="rsvpSubmit">Kirim Konfirmasi</button>
+      <p class="note center" style="margin-top:12px">
+        Tombol terkunci saat dikirim &amp; permintaan bersifat idempoten — klik dua kali tidak membuat dua RSVP.
+      </p>
+    </form>
+  </section>
+
+  <!-- ============ 9. UCAPAN ============ -->
+  <section id="wishes">
+    <div class="center reveal">
+      <p class="eyebrow">Ucapan &amp; Doa</p>
+      <h2 id="wishCount">Dari Sahabat</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="wishes" id="wishList"></div>
+  </section>
+
+  <!-- ============ 10. HADIAH ============ -->
+  <section id="gift" style="background:var(--paper-2)">
+    <div class="center reveal">
+      <p class="eyebrow">Wedding Gift</p>
+      <h2>Kirim Hadiah</h2>
+      <p>Doa restu Anda sudah lebih dari cukup. Namun bila berkenan memberi tanda kasih,
+         dapat melalui kanal berikut.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="gift-card reveal">
+      <div class="bank">Bank Mandiri</div>
+      <div class="acc">137 0012 3456 789</div>
+      <div class="owner">a.n. Kirana Maheswari</div>
+      <button class="btn btn-ghost btn-block" data-copy="1370012345678 9">Salin nomor rekening</button>
+    </div>
+
+    <div class="gift-card reveal">
+      <div class="bank">Kirim Hadiah Fisik</div>
+      <div class="acc" style="font-size:18px">Jl. Melati Wangi No. 24</div>
+      <div class="owner">Sleman, DI Yogyakarta 55281 · 0812-3456-7890</div>
+      <button class="btn btn-ghost btn-block" data-copy="Jl. Melati Wangi No. 24, Sleman, DI Yogyakarta 55281">Salin alamat</button>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP ============ -->
+  <section class="closing">
+    <div class="reveal">
+      <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
+         berkenan hadir dan memberikan doa restu.</p>
+      <div class="divider"></div>
+      <h2>Arya &amp; Kirana</h2>
+      <p class="eyebrow" style="margin-top:14px">Wassalamu'alaikum Wr. Wb.</p>
+    </div>
+  </section>
+
+  <p class="credit">Prototipe <b>MomentLabs</b> — demo undangan digital.<br>
+     Coba ganti tamu: <a href="?to=hans-di-tempat">?to=hans-di-tempat</a> ·
+     <a href="dashboard.html">Buka dashboard tamu →</a></p>
+</main>
+
+<!-- ============ NAV & MUSIK ============ -->
+<nav class="dock" id="dock" aria-label="Navigasi undangan">
+  <a href="#home" title="Beranda">⌂</a>
+  <a href="#couple" title="Pasangan">❦</a>
+  <a href="#event" title="Acara">◷</a>
+  <a href="#gallery" title="Galeri">▣</a>
+  <a href="#rsvp" title="RSVP">✓</a>
+  <a href="#gift" title="Hadiah">♡</a>
+</nav>
+<button class="music-btn" id="musicBtn" aria-label="Putar atau hentikan musik"><span>♪</span></button>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

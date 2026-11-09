@@ -1,0 +1,192 @@
+{
+  "sheet": "assets-src/celestial-luxury/sheet.jpg",
+  "outDir": "public/templates/celestial-luxury",
+  "sprites": {
+    "floralRose": [
+      42,
+      22,
+      418,
+      336
+    ],
+    "floralDahlia": [
+      478,
+      26,
+      378,
+      334
+    ],
+    "pampas": [
+      862,
+      36,
+      486,
+      308
+    ],
+    "beads": {
+      "box": [
+        1372,
+        22,
+        326,
+        320
+      ],
+      "global": true
+    },
+    "chandelier": {
+      "box": [
+        1702,
+        22,
+        152,
+        336
+      ],
+      "global": true
+    },
+    "stage": {
+      "box": [
+        36,
+        382,
+        810,
+        366
+      ],
+      "global": true
+    },
+    "archCurtain": {
+      "box": [
+        858,
+        382,
+        576,
+        360
+      ],
+      "global": true
+    },
+    "lanterns": {
+      "box": [
+        1458,
+        382,
+        198,
+        314
+      ],
+      "clear": [
+        [
+          178,
+          0,
+          20,
+          160
+        ]
+      ]
+    },
+    "celestials": {
+      "box": [
+        1652,
+        382,
+        326,
+        304
+      ],
+      "global": true
+    },
+    "starBurst": {
+      "box": [
+        1628,
+        418,
+        146,
+        110
+      ],
+      "global": true
+    },
+    "moon": {
+      "box": [
+        1738,
+        552,
+        114,
+        130
+      ],
+      "global": true
+    },
+    "chairLeft": {
+      "box": [
+        42,
+        798,
+        306,
+        306
+      ],
+      "global": true
+    },
+    "chairRight": {
+      "box": [
+        352,
+        798,
+        306,
+        306
+      ],
+      "global": true
+    },
+    "screen": [
+      688,
+      756,
+      524,
+      352
+    ],
+    "pedestal": [
+      1232,
+      776,
+      170,
+      336
+    ],
+    "pedestalSmall": [
+      1402,
+      812,
+      166,
+      300
+    ],
+    "wingLeft": {
+      "box": [
+        1582,
+        782,
+        190,
+        316
+      ],
+      "clear": [
+        [
+          104,
+          0,
+          88,
+          88
+        ],
+        [
+          128,
+          40,
+          64,
+          125
+        ],
+        [
+          78,
+          44,
+          40,
+          34
+        ]
+      ],
+      "global": true
+    },
+    "wingRight": {
+      "box": [
+        1772,
+        782,
+        192,
+        316
+      ],
+      "global": true,
+      "clear": [
+        [
+          0,
+          0,
+          100,
+          118
+        ],
+        [
+          96,
+          40,
+          30,
+          40
+        ]
+      ]
+    }
+  },
+  "photos": {}
+}

@@ -1,0 +1,14 @@
+{
+  "sheet": "assets-src/sekar-prambanan/sheet.webp",
+  "outDir": "public/templates/sekar-prambanan",
+  "bgColor": [42, 42, 44],
+  "bgWeights": [1, 1, 1],
+  "bgSlack": 14,
+  "threshold": 22,
+  "feather": 40,
+  "trimEdges": 0.05,
+  "sprites": {
+    "gateL": [322, 34, 118, 364],
+    "gateR": [492, 34, 124, 364]
+  }
+}
